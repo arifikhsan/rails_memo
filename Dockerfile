@@ -32,7 +32,8 @@ RUN gem install bundler -v 2.1.4
 WORKDIR /note
 COPY Gemfile Gemfile.lock ./
 RUN bundle check || bundle install
-
+COPY package.json yarn.lock ./
+RUN yarn install --check-files
 COPY . ./
 
 CMD rails s
