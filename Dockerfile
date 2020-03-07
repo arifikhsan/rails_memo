@@ -1,12 +1,38 @@
-FROM ruby:2.6.5
+FROM ruby:2.6.5-alpine
 
-RUN apt-get update -qq && apt-get install -y nodejs libpq-dev
+ENV BUNDLER_VERSION=2.1.4
+
+RUN apk add --update --no-cache \
+      binutils-gold \
+      build-base \
+      curl \
+      file \
+      g++ \
+      gcc \
+      git \
+      less \
+      libstdc++ \
+      libffi-dev \
+      libc-dev \ 
+      linux-headers \
+      libxml2-dev \
+      libxslt-dev \
+      libgcrypt-dev \
+      make \
+      netcat-openbsd \
+      nodejs \
+      openssl \
+      pkgconfig \
+      postgresql-dev \
+      python \
+      tzdata \
+      yarn 
+
 RUN gem install bundler -v 2.1.4
-RUN mkdir /note
 WORKDIR /note
-COPY Gemfile* /note/
-RUN bundle install
+COPY Gemfile Gemfile.lock ./
+RUN bundle check || bundle install
 
-ADD . /note
+COPY . ./
 
 CMD rails s
