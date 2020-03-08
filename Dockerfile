@@ -39,4 +39,4 @@ RUN yarn install --check-files
 
 COPY . ./
 
-CMD rails s
+ENTRYPOINT [ "./entrypoints/docker-entrypoint.sh" ]
